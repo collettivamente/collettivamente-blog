@@ -1,5 +1,5 @@
 ---
-title: How to Pre-render Pages Using Static Generation with Next.js
+title: Circa How to Pre-render Pages Using Static Generation with Next.js
 excerpt: >-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
   incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo
