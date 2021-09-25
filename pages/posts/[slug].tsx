@@ -34,8 +34,6 @@ interface Data {
 
 export default function Post({ data, slug }: { data: Data, slug: string }) {
   
-  return <pre>{JSON.stringify(data)}</pre>;
-  
   const {
     title,
     coverImage,
@@ -90,7 +88,7 @@ export default function Post({ data, slug }: { data: Data, slug: string }) {
 
 export const getStaticProps: GetStaticProps<Data, { slug: string }> = async ({ params }) => {
   const { slug } = params!;
-  const variables = { relarivePath: `${slug}.md` };
+  const variables = { relativePath: `${slug}.md` };
   const tinaProps = await getStaticPropsForTina({
     query: `
       query BlogPostQuery($relativePath: String!) {
