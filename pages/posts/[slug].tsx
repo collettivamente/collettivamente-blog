@@ -32,7 +32,10 @@ interface Data {
   }
 }
 
-const Post: React.FC<{ data: Data, slug: string}> = ({ data, slug }) => {
+export default function Post({ data, slug }: { data: Data, slug: string }) {
+  
+  return <pre>{JSON.stringify(data)}</pre>;
+  
   const {
     title,
     coverImage,
