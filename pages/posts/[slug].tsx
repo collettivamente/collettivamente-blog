@@ -1,3 +1,4 @@
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
 import { useEffect, useState } from 'react'
@@ -12,7 +13,26 @@ import { staticRequest, getStaticPropsForTina } from 'tinacms'
 import { CMS_NAME } from '../../lib/constants'
 import markdownToHtml from '../../lib/markdownToHtml'
 
-export default function Post({ data, slug }) {
+interface Data {
+  getPostsDocument: {
+    data: {
+      title: string;
+      excerpt: string;
+      date: string;
+      coverImage: string;
+      author: {
+        name: string;
+        picture: string;
+      };
+      ogImage: {
+        url: string;
+      };
+      body: string;
+    }
+  }
+}
+
+const Post: React.FC<{ data: Data, slug: string}> = ({ data, slug }) => {
   const {
     title,
     coverImage,
@@ -20,7 +40,7 @@ export default function Post({ data, slug }) {
     author,
     body,
     ogImage
-  } = data.getPostDocument.data
+  } = data.getPostsDocument.data
 
   const router = useRouter()
   const [content, setContent] = useState('')
@@ -65,8 +85,8 @@ export default function Post({ data, slug }) {
   )
 }
 
-export async function getStaticProps({ params }) {
-  const { slug } = params;
+export const getStaticProps: GetStaticProps<Data, { slug: string }> = async ({ params }) => {
+  const { slug } = params!;
   const variables = { relarivePath: `${slug}.md` };
   const tinaProps = await getStaticPropsForTina({
     query: `
@@ -100,8 +120,20 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export async function getStaticPaths() {
-  const postListData = staticRequest({
+type PostListData = {
+  getPostsList: {
+    edges: {
+      node: {
+        sys: {
+          filename: string,
+        }
+      }
+    }[]
+  }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const postListData = await staticRequest({
     query: `
       query {
         getPostsList {
@@ -119,7 +151,7 @@ export async function getStaticPaths() {
   })
 
   return {
-    paths: postListData.getPostsList.edges.map(edge => ({
+    paths: (postListData as PostListData).getPostsList.edges.map(edge => ({
       params: { slug: edge.node.sys.filename },
     })),
     fallback: false

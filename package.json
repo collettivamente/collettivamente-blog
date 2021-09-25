@@ -23,8 +23,11 @@
     "tinacms": "^0.55.2"
   },
   "devDependencies": {
+    "@types/node": "^16.10.1",
+    "@types/react": "^17.0.24",
     "autoprefixer": "^10.2.1",
     "postcss": "^8.2.4",
-    "tailwindcss": "^2.0.2"
+    "tailwindcss": "^2.0.2",
+    "typescript": "^4.4.3"
   }
 }

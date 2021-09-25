@@ -1,9 +1,10 @@
 import dynamic from 'next/dynamic'
+import {AppProps} from 'next/app'
 import { TinaEditProvider } from 'tinacms/dist/edit-state'
 const TinaCMS = dynamic(() => import('tinacms'), { ssr: false })
 import '../styles/index.css'
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <TinaEditProvider
@@ -22,7 +23,7 @@ const App = ({ Component, pageProps }) => {
             }}
             {...pageProps}
           >
-            {(livePageProps) => <Component {...livePageProps} />}
+            {(livePageProps: any) => <Component {...livePageProps} />}
           </TinaCMS>
         }
       >
